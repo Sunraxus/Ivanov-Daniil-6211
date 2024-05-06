@@ -1,4 +1,4 @@
-KEY = {
+KEY1 = {
 	"а" : "н",
 	"б" : "о",
 	"в" : "п",
@@ -33,4 +33,4 @@ KEY = {
 	"я" : "м"
 }
 
-PATHS = "lab_1/task_1/path.json"
+PATHS1 = "lab_1/task_1/path1.json"

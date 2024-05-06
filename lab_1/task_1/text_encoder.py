@@ -1,6 +1,6 @@
 import json
 import string
-from constants1 import KEY, PATHS
+from constants1 import KEY1, PATHS1
 
 def read_json_file(file_path: str) -> dict:
     try:
