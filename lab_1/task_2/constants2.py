@@ -35,3 +35,4 @@ KEY_2 = {
 }
 
 PATHS_2 = "lab_1/task_2/path2.json"
+
