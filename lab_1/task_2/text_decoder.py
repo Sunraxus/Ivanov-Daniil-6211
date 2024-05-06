@@ -1,8 +1,19 @@
 import json
-from constants2 import PATHS2, KEY2
+
+from constants2 import PATHS_2, KEY_2
 from frequency_analysis import read_json_file
 
+
 def replace_characters(text: str, key: dict) -> str:
+    """
+    Replace characters in the text using the provided key.
+    Arguments:
+        text (str): The text to be processed.
+        key (dict): Dictionary representing the character replacement key.
+        
+    Returns:
+        str: The text with characters replaced according to the key.
+    """
     replaced_text = ""
     for char in text:
         if char in key:
@@ -11,7 +22,14 @@ def replace_characters(text: str, key: dict) -> str:
             replaced_text += char
     return replaced_text
 
+
 def process_text(file_paths: dict, key: dict) -> None:
+    """
+    Process the input text file using the provided key and write the decrypted text to the output file. 
+    Arguments:
+        file_paths (dict): Dictionary containing paths to input and output files.
+        key (dict): Dictionary representing the character replacement key.
+    """
     try:
         folder = file_paths.get("folder", "")
         input_file_path = file_paths.get("input_text2", "")
@@ -35,15 +53,20 @@ def process_text(file_paths: dict, key: dict) -> None:
     except FileNotFoundError:
         print(f"Error: File not found.")
     except Exception as e:
-        print(f"An unexpected error occurred during decryption: {e}")
+        print(f"Unexpected error occurred during decryption: {e}")
+
 
 def process_files():
-    paths_data = read_json_file(PATHS2)
+    """
+    Read paths from the configuration file, process the input text file, and write the decrypted text to the output file.
+    """
+    paths_data = read_json_file(PATHS_2)
 
     if paths_data:
-        process_text(paths_data, KEY2)
+        process_text(paths_data, KEY_2)
     else:
         print("Error: Unable to read paths data from path.json.")
-        
+
+
 if __name__ == "__main__":
     process_files()
