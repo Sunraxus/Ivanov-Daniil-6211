@@ -23,51 +23,52 @@ def replace_characters(text: str, key: dict) -> str:
     return replaced_text
 
 
-def process_text(file_paths: dict, key: dict) -> None:
+def process_text(input_file_path: str, output_file_path: str, key: dict) -> None:
     """
     Process the input text file using the provided key and write the decrypted text to the output file. 
     Arguments:
-        file_paths (dict): Dictionary containing paths to input and output files.
+        input_file_path (str): Path to the input text file.
+        output_file_path (str): Path to the output text file.
         key (dict): Dictionary representing the character replacement key.
     """
     try:
-        folder = file_paths.get("folder", "")
-        input_file_path = file_paths.get("input_text2", "")
-        output_file_path = file_paths.get("output_text2", "")
+        with open(input_file_path, "r", encoding="utf-8") as input_file:
+            text = input_file.read()
 
-        if folder and input_file_path and output_file_path:
-            input_file_path = f"{folder}/{input_file_path}"
-            output_file_path = f"{folder}/{output_file_path}"
+        decrypted_text = replace_characters(text, key)
 
-            with open(input_file_path, "r", encoding="utf-8") as input_file:
-                text = input_file.read()
+        with open(output_file_path, "w", encoding="utf-8") as output_file:
+            output_file.write(decrypted_text)
 
-            decrypted_text = replace_characters(text, key)
-
-            with open(output_file_path, "w", encoding="utf-8") as output_file:
-                output_file.write(decrypted_text)
-
-            print("Decryption completed successfully.")
-        else:
-            print("Error: Invalid paths data in path.json.")
+        print("Decryption completed successfully.")
     except FileNotFoundError:
         print(f"Error: File not found.")
     except Exception as e:
         print(f"Unexpected error occurred during decryption: {e}")
 
 
-def process_files():
+def main() -> None:
     """
-    Read paths from the configuration file, process the input text file, and write the decrypted text to the output file.
-    """
+    Main function to read paths from the configuration file, and decrypt the text.
+    """  
     paths_data = read_json_file(PATHS_2)
 
     if paths_data:
-        process_text(paths_data, KEY_2)
+        folder = paths_data.get("folder", "")
+        input_file_name = paths_data.get("input_text2", "")
+        output_file_name = paths_data.get("output_text2", "")
+
+        if folder and input_file_name and output_file_name:
+            input_file_path = f"{folder}/{input_file_name}"
+            output_file_path = f"{folder}/{output_file_name}"
+
+            process_text(input_file_path, output_file_path, KEY_2)
+        else:
+            print("Error: Invalid paths data in path.json.")
     else:
         print("Error: Unable to read paths data from path.json.")
 
 
 if __name__ == "__main__":
-    process_files()
+    main()
  

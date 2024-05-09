@@ -38,7 +38,7 @@ def caesar_cipher(text: str, shift: int) -> str:
     for i in text:
         if i.isalpha():
                 index = ALPHABET.index(i)
-                encrypted_text += ALPHABET[(index + shift) % len(ALPHABET)].lower()
+                encrypted_text += ALPHABET[(index + shift) % len(ALPHABET)]
         else:
             encrypted_text += i
     return encrypted_text
@@ -68,22 +68,35 @@ def process_text(input_file_path: str, output_file_path: str) -> None:
         print(f"Unexpected error occurred during encryption: {e}")
 
 
-def process_files():
+def process_files(folder: str, input_file_name: str, output_file_name: str) -> None:
     """
-    Function to read paths from the configuration file, process the input text file,
-    and write the encrypted text to the output text file.
+    Function to process the input text file, and write the encrypted text to the output text file.
+    Arguments:
+        folder (str): Path to the folder containing input and output text files.
+        input_file_name (str): Name of the input text file.
+        output_file_name (str): Name of the output text file.
+    """
+    try:
+        input_file_path = f"{folder}/{input_file_name}"
+        output_file_path = f"{folder}/{output_file_name}"
+        process_text(input_file_path, output_file_path)
+    except Exception as e:
+        print(f"An error occurred while processing files: {e}")
+
+
+def main() -> None:
+    """
+    Main function to read paths from the configuration file, and process the input text file.
     """
     paths_data = read_json_file(PATHS_1)
 
     if paths_data:
         folder = paths_data.get("folder", "")
-        input_file_path = paths_data.get("input_text1", "")
-        output_file_path = paths_data.get("output_text1", "")
+        input_file_name = paths_data.get("input_text1", "")
+        output_file_name = paths_data.get("output_text1", "")
 
-        if folder and input_file_path and output_file_path:
-            input_file_path = f"{folder}/{input_file_path}"
-            output_file_path = f"{folder}/{output_file_path}"
-            process_text(input_file_path, output_file_path)
+        if folder and input_file_name and output_file_name:
+            process_files(folder, input_file_name, output_file_name)
         else:
             print("Error: Invalid paths data in path.json.")
     else:
@@ -91,5 +104,5 @@ def process_files():
 
 
 if __name__ == "__main__":
-    process_files()
+    main()
 

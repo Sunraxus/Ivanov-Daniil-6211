@@ -63,26 +63,15 @@ def analyze_text(file_path: str) -> dict:
         return {}
 
 
-def analyze_text_from_json():
+def analyze_text_from_json(folder: str, input_file_name: str) -> None:
     """
     Analyze the frequency of characters in the text file specified in the JSON configuration file.
+    Arguments:
+        folder (str): Path to the folder containing input text file.
+        input_file_name (str): Name of the input text file.
     """
-    paths_data = read_json_file(PATHS_2)
-
-    if not paths_data:
-        print("Error: Unable to read paths data from path.json.")
-        return
-
-    folder = paths_data.get("folder", "")
-    input_file_path = paths_data.get("input_text2", "")
-
-    if not folder or not input_file_path:
-        print("Error: Invalid paths data in path.json.")
-        return
-
-    input_file_path = f"{folder}/{input_file_path}"
-
     try:
+        input_file_path = f"{folder}/{input_file_name}"
         freq_dict = analyze_text(input_file_path)
         if freq_dict:
             print("Character frequency analysis (ratio of total characters):")
@@ -94,6 +83,26 @@ def analyze_text_from_json():
         print(f"Unexpected error occurred while analyzing text: {e}.")
 
 
+def main() -> None:
+    """
+    Main function to read paths from the configuration file, and analyze the text.
+    """
+    paths_data = read_json_file(PATHS_2)
+
+    if not paths_data:
+        print("Error: Unable to read paths data from path.json.")
+        return
+
+    folder = paths_data.get("folder", "")
+    input_file_name = paths_data.get("input_text2", "")
+
+    if not folder or not input_file_name:
+        print("Error: Invalid paths data in path.json.")
+        return
+
+    analyze_text_from_json(folder, input_file_name)
+
+
 if __name__ == "__main__":
-    analyze_text_from_json()
+    main()
  
