@@ -27,3 +27,17 @@ def frequency_bitwise_test(sequence: str) -> float:
         print(f"An error occurred: {e}")
         return None
 
+
+def consecutive_bits_test(sequence: str) -> float:
+    try:
+        N = len(sequence)
+        Z = sequence.count("1") / N
+        if abs(Z - 0.5) >= 2 / sqrt(N):
+            return 0
+        else:
+            V = sum(1 if sequence[i] != sequence[i + 1] else 0 for i in range(N - 1))
+            P = erfc((abs(V - 2 * N * Z * (1 - Z))) / (2 * sqrt(2 * N) * Z * (1 - Z)))        
+        return P
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
