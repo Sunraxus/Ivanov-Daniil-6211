@@ -7,7 +7,7 @@ from constants import SEQUENCE_CPP, SEQUENCE_JAVA, BLOCK_SIZE, PI_VALUES
 
 def read_txt(path: str) -> str:
     try:
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             text = file.read()
         return text
     except FileNotFoundError:
@@ -16,8 +16,8 @@ def read_txt(path: str) -> str:
     except Exception as e:
         print(f"Unexpected error occurred while reading file '{path}': {e}.")
         return None
-    
-    
+
+
 def frequency_bitwise_test(sequence: str) -> float:
     try:
         N = len(sequence)
@@ -37,19 +37,19 @@ def consecutive_bits_test(sequence: str) -> float:
             return 0
         else:
             V = sum(1 if sequence[i] != sequence[i + 1] else 0 for i in range(N - 1))
-            P = erfc((abs(V - 2 * N * Z * (1 - Z))) / (2 * sqrt(2 * N) * Z * (1 - Z)))        
+            P = erfc((abs(V - 2 * N * Z * (1 - Z))) / (2 * sqrt(2 * N) * Z * (1 - Z)))
         return P
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-    
+
 
 def longest_sequence_test(sequence: str) -> float:
     try:
         N = len(sequence)
         block_max_lengths = {i: 0 for i in range(0, BLOCK_SIZE)}
         for step in range(0, N, BLOCK_SIZE):
-            block = sequence[step:step + BLOCK_SIZE]
+            block = sequence[step : step + BLOCK_SIZE]
             current_length = 0
             max_length = 0
             for bit in block:
@@ -71,18 +71,18 @@ def longest_sequence_test(sequence: str) -> float:
                 case _:
                     v[4] += block_max_lengths[i]
         for i in range(4):
-            xi_square = (pow((v[i+1] - 16 * PI_VALUES[i]), 2) / (16 * PI_VALUES[i]))
+            xi_square = pow((v[i + 1] - 16 * PI_VALUES[i]), 2) / (16 * PI_VALUES[i])
         P = gammainc(3 / 2, xi_square / 2)
-        return P    
+        return P
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-    
-    
+
+
 def main():
     sequence_cpp = read_txt(SEQUENCE_CPP)
     sequence_java = read_txt(SEQUENCE_JAVA)
-    
+
     print("Результаты тестов для последовательности C++:")
     freq_test_cpp = frequency_bitwise_test(sequence_cpp)
     consec_bits_test_cpp = consecutive_bits_test(sequence_cpp)
@@ -90,7 +90,7 @@ def main():
     print(f"Тест на частоту битов: {freq_test_cpp}")
     print(f"Тест на последовательные биты: {consec_bits_test_cpp}")
     print(f"Тест на самую длинную последовательность: {longest_seq_test_cpp}")
-    
+
     print("\nРезультаты тестов для последовательности Java:")
     freq_test_java = frequency_bitwise_test(sequence_java)
     consec_bits_test_java = consecutive_bits_test(sequence_java)
