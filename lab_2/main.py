@@ -5,16 +5,16 @@ from mpmath import gammainc
 from constants import SEQUENCE_CPP, SEQUENCE_JAVA, BLOCK_SIZE, PI_VALUES
 
 
-def read_txt(file_name):
+def read_txt(path: str) -> str:
     try:
-        with open(file_name, 'r') as file:
+        with open(path, 'r') as file:
             text = file.read()
         return text
     except FileNotFoundError:
-        print(f"Error: File '{file_name}' not found.")
+        print(f"Error: File '{path}' not found.")
         return None
     except Exception as e:
-        print(f"Unexpected error occurred while reading file '{file_name}': {e}.")
+        print(f"Unexpected error occurred while reading file '{path}': {e}.")
         return None
     
     
@@ -49,7 +49,7 @@ def longest_sequence_test(sequence: str) -> float:
         N = len(sequence)
         block_max_lengths = {i: 0 for i in range(0, BLOCK_SIZE)}
         for step in range(0, N, BLOCK_SIZE):
-            block = sequence[step:step+8]
+            block = sequence[step:step + BLOCK_SIZE]
             current_length = 0
             max_length = 0
             for bit in block:
@@ -57,9 +57,8 @@ def longest_sequence_test(sequence: str) -> float:
                     current_length += 1
                 else:
                     current_length = 0
-                if max_lenght < current_length:
-                    max_lenght = current_length
-            block_max_lengths[max_lenght] +=1
+                max_length = max(max_length, current_length)
+            block_max_lengths[max_length] = block_max_lengths.get(max_length, 0) + 1
         v = {i: 0 for i in range(1, 5)}
         for i in block_max_lengths:
             match i:
@@ -71,12 +70,35 @@ def longest_sequence_test(sequence: str) -> float:
                     v[3] += block_max_lengths[i]
                 case _:
                     v[4] += block_max_lengths[i]
-        for i in range(0, 4):
-            xi_square = (pow((v[i+1] - 16*PI_VALUES[i]), 2) / (16*PI_VALUES[i]))
-        P = gammainc(3/2, xi_square/2)
+        for i in range(4):
+            xi_square = (pow((v[i+1] - 16 * PI_VALUES[i]), 2) / (16 * PI_VALUES[i]))
+        P = gammainc(3 / 2, xi_square / 2)
         return P    
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
     
     
+def main():
+    sequence_cpp = read_txt(SEQUENCE_CPP)
+    sequence_java = read_txt(SEQUENCE_JAVA)
+    
+    print("Результаты тестов для последовательности C++:")
+    freq_test_cpp = frequency_bitwise_test(sequence_cpp)
+    consec_bits_test_cpp = consecutive_bits_test(sequence_cpp)
+    longest_seq_test_cpp = longest_sequence_test(sequence_cpp)
+    print(f"Тест на частоту битов: {freq_test_cpp}")
+    print(f"Тест на последовательные биты: {consec_bits_test_cpp}")
+    print(f"Тест на самую длинную последовательность: {longest_seq_test_cpp}")
+    
+    print("\nРезультаты тестов для последовательности Java:")
+    freq_test_java = frequency_bitwise_test(sequence_java)
+    consec_bits_test_java = consecutive_bits_test(sequence_java)
+    longest_seq_test_java = longest_sequence_test(sequence_java)
+    print(f"Тест на частоту битов: {freq_test_java}")
+    print(f"Тест на последовательные биты: {consec_bits_test_java}")
+    print(f"Тест на самую длинную последовательность: {longest_seq_test_java}")
+
+
+if __name__ == "__main__":
+    main()
