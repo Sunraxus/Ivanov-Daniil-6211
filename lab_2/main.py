@@ -6,6 +6,15 @@ from constants import SEQUENCE_CPP, SEQUENCE_JAVA, BLOCK_SIZE, PI_VALUES
 
 
 def read_txt(path: str) -> str:
+    """
+    Reads the content of a text file.
+
+    Arguments:
+    path (str): The path to the text file.
+
+    Returns:
+    str: The content of the text file, or None if an error occurred.
+    """
     try:
         with open(path, "r") as file:
             text = file.read()
@@ -19,6 +28,15 @@ def read_txt(path: str) -> str:
 
 
 def frequency_bitwise_test(sequence: str) -> float:
+    """
+    Performs the frequency bitwise test on a binary sequence.
+
+    Arguments:
+    sequence (str): The binary sequence to be tested.
+
+    Returns:
+    float: The p-value of the test, or None if an error occurred.
+    """
     try:
         N = len(sequence)
         S = (sequence.count("1") - sequence.count("0")) / sqrt(N)
@@ -30,6 +48,15 @@ def frequency_bitwise_test(sequence: str) -> float:
 
 
 def consecutive_bits_test(sequence: str) -> float:
+    """
+    Performs the test for consecutive bits on a binary sequence.
+
+    Arguments:
+    sequence (str): The binary sequence to be tested.
+
+    Returns:
+    float: The p-value of the test, or None if an error occurred.
+    """
     try:
         N = len(sequence)
         Z = sequence.count("1") / N
@@ -45,6 +72,15 @@ def consecutive_bits_test(sequence: str) -> float:
 
 
 def longest_sequence_test(sequence: str) -> float:
+    """
+    Performs the test for the longest sequence of 1s in blocks of a binary sequence.
+
+    Arguments:
+    sequence (str): The binary sequence to be tested.
+
+    Returns:
+    float: The p-value of the test, or None if an error occurred.
+    """
     try:
         N = len(sequence)
         block_max_lengths = {i: 0 for i in range(0, BLOCK_SIZE)}
@@ -80,24 +116,27 @@ def longest_sequence_test(sequence: str) -> float:
 
 
 def main():
+    """
+    Main function to read sequences and perform statistical tests.
+    """
     sequence_cpp = read_txt(SEQUENCE_CPP)
     sequence_java = read_txt(SEQUENCE_JAVA)
 
-    print("Результаты тестов для последовательности C++:")
+    print("Test results for the C++ sequence:")
     freq_test_cpp = frequency_bitwise_test(sequence_cpp)
     consec_bits_test_cpp = consecutive_bits_test(sequence_cpp)
     longest_seq_test_cpp = longest_sequence_test(sequence_cpp)
-    print(f"Тест на частоту битов: {freq_test_cpp}")
-    print(f"Тест на последовательные биты: {consec_bits_test_cpp}")
-    print(f"Тест на самую длинную последовательность: {longest_seq_test_cpp}")
+    print(f"Bit Rate test: {freq_test_cpp}")
+    print(f"Test for consecutive bits: {consec_bits_test_cpp}")
+    print(f"Test for the longest sequence: {longest_seq_test_cpp}")
 
-    print("\nРезультаты тестов для последовательности Java:")
+    print("\nTest results for the Java sequence:")
     freq_test_java = frequency_bitwise_test(sequence_java)
     consec_bits_test_java = consecutive_bits_test(sequence_java)
     longest_seq_test_java = longest_sequence_test(sequence_java)
-    print(f"Тест на частоту битов: {freq_test_java}")
-    print(f"Тест на последовательные биты: {consec_bits_test_java}")
-    print(f"Тест на самую длинную последовательность: {longest_seq_test_java}")
+    print(f"Bit Rate test: {freq_test_java}")
+    print(f"Test for consecutive bits: {consec_bits_test_java}")
+    print(f"Test for the longest sequence: {longest_seq_test_java}")
 
 
 if __name__ == "__main__":
