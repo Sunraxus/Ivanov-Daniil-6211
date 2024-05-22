@@ -83,7 +83,7 @@ def longest_sequence_test(sequence: str) -> float:
     """
     try:
         N = len(sequence)
-        block_max_lengths = {i: 0 for i in range(0, BLOCK_SIZE)}
+        block_max_lengths = {}
         for step in range(0, N, BLOCK_SIZE):
             block = sequence[step : step + BLOCK_SIZE]
             current_length = 0
@@ -97,17 +97,11 @@ def longest_sequence_test(sequence: str) -> float:
             block_max_lengths[max_length] = block_max_lengths.get(max_length, 0) + 1
         v = {i: 0 for i in range(1, 5)}
         for i in block_max_lengths:
-            match i:
-                case 0 | 1:
-                    v[1] += block_max_lengths[i]
-                case 2:
-                    v[2] += block_max_lengths[i]
-                case 3:
-                    v[3] += block_max_lengths[i]
-                case _:
-                    v[4] += block_max_lengths[i]
+            key = min(i, 4)
+            v[key] += block_max_lengths[i]
+        xi_square = 0
         for i in range(4):
-            xi_square = pow((v[i + 1] - 16 * PI_VALUES[i]), 2) / (16 * PI_VALUES[i])
+            xi_square += pow(v[i + 1] - 16 * PI_VALUES[i], 2) / (16 * PI_VALUES[i])
         P = gammainc(3 / 2, xi_square / 2)
         return P
     except Exception as e:
@@ -141,4 +135,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
