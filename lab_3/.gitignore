@@ -153,5 +153,4 @@ dmypy.json
 cython_debug/
 
 .idea/
-.lab_3/
 .vscode/

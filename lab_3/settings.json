@@ -1,0 +1,8 @@
+{
+    "symmetric_key":"keys/",
+    "public_key":"keys/",
+    "private_key":"keys/",
+    "text": "text/",
+    "encrypted_text": "text/",
+    "decrypted_text": "text/"
+}
