@@ -2,6 +2,7 @@ import json
 
 
 class WorkFile:
+    @staticmethod
     def read_json_file(file_path: str) -> dict:
         try:
             with open(file_path, "r", encoding="utf-8") as file:
@@ -14,7 +15,7 @@ class WorkFile:
             print(f"An unexpected error occurred while reading file '{file_path}': {e}.")
             return {}
         
-    
+    @staticmethod
     def read_bytes(file_path: str) -> bytes:
         try:
             with open(file_path, "rb") as file:
@@ -27,7 +28,7 @@ class WorkFile:
             print(f"An unexpected error occurred while reading file '{file_path}': {e}.")
             return {}
 
-    
+    @staticmethod
     def read_text_file(file_path: str) -> str:
         try:
             with open(file_path, "r", encoding="utf-8") as file:
@@ -40,7 +41,7 @@ class WorkFile:
             print(f"An unexpected error occurred while reading file '{file_path}': {e}.")
             return {}
     
-    
+    @staticmethod
     def write_bytes(file_path: str, text: bytes) -> None:
         try:
             with open(file_path, 'wb') as file:
@@ -52,7 +53,7 @@ class WorkFile:
             print(f"An unexpected error occurred while reading file '{file_path}': {e}.")
             return {}
 
-
+    @staticmethod
     def write_text_file(file_path: str, data: str) -> None:
         try:
             with open(file_path, "a", encoding='UTF-8') as file:
